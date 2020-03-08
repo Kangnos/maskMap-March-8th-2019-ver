@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>마스크맵</title>
+</head>
+
+<body>
+    <div style="text-align: center; background-color: black; color: white; font-size: 35px; font-family:TmonMonsori;">마 스 크 맵
+    <div style="text-align: center;color: white; font-size: 20px; font-family:TmonMonsori;">이 지도에 표시된 위치와 실제 위치는 다를수 있습니다.</div></div>
+    <div id="map" style="width:100%px;height:98vh;"></div>
+    <script
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=77ca3ebbeb57cf66ce533f89477d8ec0&libraries=clusterer"></script>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(37.537791, 126.653927), // 지도의 중심좌표
+                level: 4, // 지도의 확대 레벨
+                mapTypeId: kakao.maps.MapTypeId.ROADMAP // 지도종류
+            };
+
+        // 지도를 생성한다 
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 마커 클러스터러를 생성합니다 
+        var clusterer = new kakao.maps.MarkerClusterer({
+            map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+            averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+            minLevel: 10 // 클러스터 할 최소 지도 레벨 
+        });
+
+        var markers = [];
+
+        // <div style="padding: 5px; font-size: 15px;"></div>
+        var data = [
+            [37.532761, 126.656656, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">옵티마강남약국<p style="font-size: 14px;">전화번호:032-865-2222</p>품절</div>'],
+            [37.532119, 126.656845, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">신신 약국<p style="font-size: 14px;">전화번호:032-565-0416</p>품절</div>'],
+            [37.532319, 126.655865, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라큰사랑약국<p style="font-size: 14px;">전화번호:032-568-7729</p>품절</div>'],
+            [37.533328, 126.644836, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">골든청라약국<p style="font-size: 14px;">전화번호:032-721-7727</p>품절</div>'],
+            [37.53197093064617, 126.65092778711315, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">금빛약국<p style="font-size: 14px;">전화번호:032-565-0531</p>품절</div>'],
+            [37.534062, 126.64556, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라천사약국<p style="font-size: 14px;">전화번호:032-572-8887</p>품절</div>'],
+            [37.531934, 126.645713, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">두리약국<p style="font-size: 14px;">전화번호:알수없음</p>품절</div>'],
+            [37.532001, 126.650000, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라중앙약국<p style="font-size: 14px;">전화번호:032-569-5678</p>품절</div>'],
+            [37.532185, 126.652922, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">365열린약국<p style="font-size: 14px;">전화번호:070-8837-7582</p>품절</div>'],
+            [37.532659, 126.650306, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라비젼약국<p style="font-size: 14px;">전화번호:032-569-1057</p>품절</div>'],
+            [37.533470, 126.651604, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라바다약국<p style="font-size: 14px;">전화번호:032-568-3258</p>품절</div>'],
+            [37.532046, 126.650350, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">건강약국<p style="font-size: 14px;">전화번호:032-5689-7718</p>품절</div>'],
+            [37.537485, 126.656668, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">포도나무약국<p style="font-size: 14px;">전화번호:070-4187-3625</p>품절</div>'],
+            [37.537485, 126.656668, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라미래약국<p style="font-size: 14px;">전화번호:032-715-6038</p>품절</div>'],
+            [37.533373, 126.653020, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라유명약국<p style="font-size: 14px;">전화번호:032-563-0605</p>품절</div>'],
+            [37.534011, 126.656573, '<div style="padding: 35px; font-size:16px; text-align: center; font-family:배달의민족 한나는 열한살;">청라온누리약국<p style="font-size: 14px;">전화번호:032-567-8212</p>품절</div>'],
+        ]
+        
+
+        for (let i = 0; i < data.length; i++) {
+            // // 지도에 마커를 생성하고 표시한다
+            // var marker = new kakao.maps.Marker({
+            //     position: new kakao.maps.LatLng(data[i][0], data[i][1]), // 마커의 좌표
+            //     map: map // 마커를 표시할 지도 객체
+            // });
+
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: data[i][2]
+            });
+            var imageSrc = 'pharmacymarker.png', // 마커이미지의 주소입니다    
+                imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다 
+                imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                markerPosition = new kakao.maps.LatLng(data[i][0], data[i][1]); // 마커가 표시될 위치입니다
+                
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(data[i][0], data[i][1]),
+                image: markerImage, // 마커이미지 설정 
+                map: map
+            });
+
+            // 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);  
+
+            markers.push(marker); //for문에 의해서 markers라는 변수안에 marker라는 변수를 매번 반복할때 마다 넣는다.
+
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+        }
+        clusterer.addMarkers(markers);
+
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+        function makeOverListener(map, marker, infowindow) {
+            return function () {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+        function makeOutListener(infowindow) {
+            return function () {
+                infowindow.close();
+            };
+        }
+    </script>
+</body>
+
+</html>
